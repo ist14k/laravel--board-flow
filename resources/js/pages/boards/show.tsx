@@ -46,7 +46,6 @@ function Show({ board }: ShowProps) {
       const newContainers = [...prev];
       const [movedContainer] = newContainers.splice(activeIndex, 1);
       newContainers.splice(overIndex, 0, movedContainer);
-      console.log('hit');
       router.post(
         `/boards/${board.id}/containers/reorder`,
         {
