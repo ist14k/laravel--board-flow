@@ -33,12 +33,16 @@ class BoardController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Board $board)
     {
-        //
+        $board->load([
+            'containers' => fn ($query) => $query->orderBy('position'),
+            'containers.cards',
+        ]);
+
+        return Inertia::render('boards/show', [
+            'board' => $board,
+        ]);
     }
 
     /**
