@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Board;
 use App\Models\Container;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,6 +16,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Container::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Board::class)->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('position');

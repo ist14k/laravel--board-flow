@@ -1,10 +1,12 @@
-import type { Card, Container } from '@/types';
-import { useSortable } from '@dnd-kit/sortable';
+import type { Card as CardType, Container } from '@/types';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useMemo } from 'react';
+import Card from './Card';
 import TrashIcon from './icons/TrashIcon';
 
 type ContainerWithCards = Container & {
-  cards: Card[];
+  cards: CardType[];
 };
 
 type ColumnContainerProps = {
@@ -12,8 +14,10 @@ type ColumnContainerProps = {
 };
 
 export default function ColumnContainer({ container }: ColumnContainerProps) {
+  const cardIds = useMemo(() => container.cards.map((card) => 'card-' + card.id), [container.cards]);
+
   const { setNodeRef, attributes, listeners, transform, transition, isDragging } = useSortable({
-    id: container.id,
+    id: 'container-' + container.id,
     data: {
       type: 'column_container',
       container: container,
@@ -63,6 +67,13 @@ export default function ColumnContainer({ container }: ColumnContainerProps) {
         <button className="flex cursor-pointer items-center justify-center rounded-md p-2 hover:bg-gray-800">
           <TrashIcon />
         </button>
+      </div>
+      <div className="flex flex-1 flex-col">
+        <SortableContext items={cardIds}>
+          {container.cards.map((card) => (
+            <Card key={card.id} card={card} />
+          ))}
+        </SortableContext>
       </div>
     </div>
   );

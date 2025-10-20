@@ -12,6 +12,7 @@ class Card extends Model
 
     protected $fillable = [
         'container_id',
+        'board_id',
         'name',
         'description',
         'position',

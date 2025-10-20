@@ -20,9 +20,10 @@ class DatabaseSeeder extends Seeder
         Board::factory(5)->create()->each(function ($board) {
             Container::factory(3)->create([
                 'board_id' => $board->id,
-            ])->each(function ($container) {
+            ])->each(function ($container) use ($board) {
                 Card::factory(random_int(5, 10))->create([
                     'container_id' => $container->id,
+                    'board_id' => $board->id,
                 ]);
             });
         });
